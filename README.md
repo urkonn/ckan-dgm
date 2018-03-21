@@ -78,7 +78,7 @@ spec:
 
 - Cambio de nombre en variable de ambiente para SOLR (SOLR_PORT_8080_TCP_PORT, SOLR_PORT_8080_TCP_PORT)
 
-- Dependencia con instancias REDIS para manejo de background-jobs (REDIS_PORT_6379_TCP_ADDR)
+- Dependencia con instancias RabbitMq para manejo de background-jobs (RABBIT_HOSTNAME)
 
 - Cambio de nombre en variables de ambiente para DATASTORE:
   - DATASTORE_ENV_DATABASE_DATASTORE
@@ -89,5 +89,3 @@ spec:
   - DATAPUSHER_URL_WITH_PORT
 
 - Cambio de nombre en variable de ambiente para SOLR (SOLR_PORT_8080_TCP_PORT, SOLR_PORT_8080_TCP_PORT)
-
-- Dependencia con instancias RabbitMq para manejo de background-jobs (RABBIT_HOSTNAME)
