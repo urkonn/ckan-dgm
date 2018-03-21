@@ -26,7 +26,7 @@ spec:
            - name: INIT_DBS
              value: "false"
            - name: CKAN_SITE_URL
-             value: "http://datos.gob.mx/busca"
+             value: "https://datos.gob.mx/busca"
            - name: SOLR_PORT_8080_TCP_ADDR
              value: "{xxxxxxx}"
            - name: SOLR_PORT_8080_TCP_PORT
@@ -51,8 +51,16 @@ spec:
              value: "{datastore-server-ip}"
            - name: DATASTORE_ENV_DATABASE_DATASTORE
              value: "{datastore-dbname}"
-           - name: REDIS_PORT_6379_TCP_ADDR
-             value: "{redis_tcp_ip}"
+           - name: RABBIT_HOSTNAME
+             value: "{rabbit_tcp_ip}"
+           - name: RABBIT_PASSWORD
+             value: "{rabbit_password}"
+           - name: RABBIT_PORT
+             value: "{rabbit_port}"
+           - name: RABBIT_USER
+             value: "{rabbit_user}"
+           - name: RABBIT_VHOST
+             value: /
            - name: DATAPUSHER_URL_WITH_PORT
              value: http://{ip-ckan}:8800/
          volumeMounts:
@@ -82,4 +90,4 @@ spec:
 
 - Cambio de nombre en variable de ambiente para SOLR (SOLR_PORT_8080_TCP_PORT, SOLR_PORT_8080_TCP_PORT)
 
-- Dependencia con instancias REDIS para manejo de background-jobs (REDIS_PORT_6379_TCP_ADDR)
+- Dependencia con instancias RabbitMq para manejo de background-jobs (RABBIT_HOSTNAME)
