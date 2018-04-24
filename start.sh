@@ -11,27 +11,22 @@ sed -i -e "s|datastore_default_read:pass@localhost/datastore_default|$DATASTORE_
 sed -i -e "s|ckan.datapusher.url = http://0.0.0.0:8800/|ckan.datapusher.url = $DATAPUSHER_URL_WITH_PORT|" /project/development.ini
 
 sed -i -e "s|hostname:port:database:username:password|$POSTGRES_PORT_5432_TCP_ADDR:5432:$POSTGRES_ENV_POSTGRES_DB:$POSTGRES_ENV_POSTGRES_USER:$POSTGRES_ENV_POSTGRES_PASSWORD|" /root/.pgpass
-# Rabbit Configs
-sed -i -e "s|ckan.harvest.mq.hostname = hostharvest|ckan.harvest.mq.hostname = $RABBIT_HOSTNAME|" /project/development.ini
-sed -i -e "s|ckan.harvest.mq.port = 5672|ckan.harvest.mq.port = $RABBIT_PORT|" /project/development.ini
-sed -i -e "s|ckan.harvest.mq.user_id = guest|ckan.harvest.mq.user_id = $RABBIT_USER|" /project/development.ini
-sed -i -e "s|ckan.harvest.mq.password = guest|ckan.harvest.mq.password = $RABBIT_PASSWORD|" /project/development.ini
-sed -i -e "s|ckan.harvest.mq.virtual_host = /|ckan.harvest.mq.virtual_host = $RABBIT_VHOST|" /project/development.ini
+# Redis Configs
+# sed -i -e "s|ckan.harvest.mq.hostname = hostharvest|ckan.harvest.mq.hostname = $REDIS_PORT_6379_TCP_ADDR|" /project/development.ini
+# sed -i -e "s|ckan.harvest.mq.port = 6379|ckan.harvest.mq.port = $REDIS_PORT|" /project/development.ini
 
-sed -i -e "s|mxtheme.adela_api_endopint =|mxtheme.adela_api_endopint = $ADELA_ENDPOINT|" /project/development.ini
-
-$CKAN_HOME/bin/paster --plugin=ckan datastore set-permissions -c /project/development.ini
+# $CKAN_HOME/bin/paster --plugin=ckan datastore set-permissions -c /project/development.ini
 
 # Create tables
 if [ "$INIT_DBS" = true ]; then
   $CKAN_HOME/bin/paster --plugin=ckan db init -c /project/development.ini
-  #$CKAN_HOME/bin/paster --plugin=ckan datastore set-permissions -c /project/development.ini | psql -h $POSTGRES_PORT_5432_TCP_ADDR -U $POSTGRES_ENV_POSTGRES_USER -w --set ON_ERROR_STOP=1
-  $CKAN_HOME/bin/paster --plugin=ckanext-spatial spatial initdb 4326 -c /project/development.ini
+  # $CKAN_HOME/bin/paster --plugin=ckan datastore set-permissions -c /project/development.ini | psql -h $POSTGRES_PORT_5432_TCP_ADDR -U $POSTGRES_ENV_POSTGRES_USER -w --set ON_ERROR_STOP=1
+  # $CKAN_HOME/bin/paster --plugin=ckanext-spatial spatial initdb 4326 -c /project/development.ini
 fi
 
-if [ "$INIT_HARVEST" = true ]; then
-    $CKAN_HOME/bin/paster --plugin=ckanext-harvest harvester initdb -c /project/development.ini
-fi
+# if [ "$INIT_HARVEST" = true ]; then
+    # $CKAN_HOME/bin/paster --plugin=ckanext-harvest harvester initdb -c /project/development.ini
+# fi
 # Load a dump file to ckan database
 # Temporalmente deshabilitado para probar el dump
 
@@ -46,11 +41,11 @@ if [ "$TEST_DATA" = true ]; then
   $CKAN_HOME/bin/paster --plugin=ckan create-test-data -c /project/development.ini echo "Llenando datos de prueba"
 fi
 
-sudo touch /var/run/supervisor.sock
-sudo chmod 777 /var/run/supervisor.sock
-sudo service supervisor restart
+# sudo touch /var/run/supervisor.sock
+# sudo chmod 777 /var/run/supervisor.sock
+# sudo service supervisor restart
 
-sudo supervisorctl reread
+# sudo supervisorctl reread
 #sudo supervisorctl add ckan_gather_consumer
 #sudo supervisorctl add ckan_fetch_consumer
 #sudo supervisorctl add ckan_harvest
@@ -59,4 +54,4 @@ sudo supervisorctl reread
 #sudo supervisorctl start ckan_harvest
 
 # Serve site
-exec apachectl -DFOREGROUND
+exec apachectl -DFOREGROUND 
