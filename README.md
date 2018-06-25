@@ -83,3 +83,5 @@ spec:
 - Cambio de nombre en variable de ambiente para SOLR (SOLR_PORT_8080_TCP_PORT, SOLR_PORT_8080_TCP_PORT)
 
 - Dependencia con instancias REDIS para manejo de background-jobs (REDIS_PORT_6379_TCP_ADDR)
+
+## Se agrego integracin Continua (CI).
